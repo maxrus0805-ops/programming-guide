@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Самые популярные языки программирования - CodeGuide{% endblock %}
+
+{% block content %}
+<div class="hero popular-hero">
+    <div class="container">
+        <h1 class="hero-title">Популярные языки программирования</h1>
+        <p class="hero-subtitle">Топ самых востребованных языков по версии CodeGuide</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="section-header">
+        <h2><i class="fas fa-trophy"></i> Рейтинг популярности</h2>
+        <p>Языки отсортированы по популярности и востребованности в 2024 году</p>
+    </div>
+
+    {% if languages %}
+    <div class="popular-list">
+        {% for language in languages %}
+        <div class="popular-item" style="animation-delay: {{ forloop.counter0|add:'0.1' }}s">
+            <div class="popular-rank">
+                <div class="rank-circle">#{{ forloop.counter }}</div>
+                <div class="rank-stars">
+                    {% for i in "12345"|make_list %}
+                        {% if forloop.counter <= 6|add:forloop.parentloop.counter|divisibleby:2|add:1 %}
+                        <i class="fas fa-star"></i>
+                        {% else %}
+                        <i class="far fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="popular-content">
+                <div class="popular-image">
+                    {% if language.logo %}
+                    <img src="{{ language.logo.url }}" alt="{{ language.name }}">
+                    {% else %}
+                    <div class="image-placeholder">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="popular-info">
+                    <h3>{{ language.name }}</h3>
+                    <div class="popular-meta">
+                        <span><i class="fas fa-calendar-alt"></i> {{ language.year_created }} год</span>
+                        <span><i class="fas fa-chart-line"></i> Высокая востребованность</span>
+                    </div>
+                    <p class="popular-application">{{ language.main_application }}</p>
+                    
+                    <div class="popular-actions">
+                        <a href="{% url 'language_detail' language.slug %}" class="btn-details-full">
+                            <i class="fas fa-info-circle"></i> Подробная информация
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="stats-card">
+        <div class="stats-icon">
+            <i class="fas fa-chart-pie"></i>
+        </div>
+        <div class="stats-content">
+            <h3>Статистика</h3>
+            <p>На этой странице представлены {{ languages|length }} самых популярных языка программирования. 
+            Эти языки составляют основу современной разработки и наиболее востребованы на рынке труда.</p>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="empty-state">
+        <i class="fas fa-star fa-3x"></i>
+        <h3>Популярные языки не найдены</h3>
+        <p>Отметьте языки как "Популярные" в административной панели</p>
+        <a href="/admin" class="btn-admin" target="_blank">
+            <i class="fas fa-cog"></i> Перейти в админку
+        </a>
+    </div>
+    {% endif %}
+    
+    <div class="back-to-main">
+        <a href="{% url 'index' %}" class="btn-main">
+            <i class="fas fa-th-list"></i> Смотреть все языки
+        </a>
+    </div>
+</div>
+{% endblock %}

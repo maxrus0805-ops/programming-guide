@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Все языки программирования - CodeGuide{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div class="container">
+        <h1 class="hero-title">Справочник по языкам программирования</h1>
+        <p class="hero-subtitle">Изучите основные языки программирования, их особенности и сферы применения</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="section-header">
+        <h2>Доступные языки</h2>
+        <a href="{% url 'popular' %}" class="btn-popular">
+            <i class="fas fa-star"></i> Смотреть популярные
+        </a>
+    </div>
+
+    {% if languages %}
+    <div class="languages-grid">
+        {% for language in languages %}
+        <div class="language-card">
+            <a href="{% url 'language_detail' language.slug %}" class="card-link">
+                <div class="card-image">
+                    {% if language.logo %}
+                    <img src="{{ language.logo.url }}" alt="{{ language.name }}" class="language-logo">
+                    {% else %}
+                    <div class="logo-placeholder">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">{{ language.name }}</h3>
+                    <div class="card-meta">
+                        <span class="year">
+                            <i class="fas fa-calendar-alt"></i> {{ language.year_created }}
+                        </span>
+                        {% if language.is_popular %}
+                        <span class="popular-tag">
+                            <i class="fas fa-star"></i> Популярный
+                        </span>
+                        {% endif %}
+                    </div>
+                    <p class="card-description">{{ language.main_application|truncatechars:100 }}</p>
+                    <div class="card-actions">
+                        <span class="btn-details">Подробнее <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="fas fa-code-branch fa-3x"></i>
+        <h3>Пока нет языков программирования</h3>
+        <p>Добавьте языки через административную панель</p>
+        <a href="/admin" class="btn-admin" target="_blank">
+            <i class="fas fa-cog"></i> Перейти в админку
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

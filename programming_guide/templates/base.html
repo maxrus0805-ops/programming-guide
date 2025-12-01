@@ -1,0 +1,47 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Справочник языков программирования{% endblock %}</title>
+    {% load static %}
+    <!-- Подключаем CSS файл -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="{% url 'index' %}" class="logo">
+                <i class="fas fa-laptop-code"></i> CodeGuide
+            </a>
+            <ul class="nav-links">
+                <li><a href="{% url 'index' %}"><i class="fas fa-home"></i> Главная</a></li>
+                <li><a href="{% url 'popular' %}"><i class="fas fa-star"></i> Популярные</a></li>
+                <li><a href="/admin" target="_blank"><i class="fas fa-cog"></i> Админка</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-laptop-code"></i> CodeGuide
+                </div>
+                <p>Образовательный ресурс о языках программирования</p>
+                <p>© 2024 Все права защищены</p>
+                <div class="footer-links">
+                    <a href="{% url 'index' %}">Все языки</a>
+                    <a href="{% url 'popular' %}">Популярные</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

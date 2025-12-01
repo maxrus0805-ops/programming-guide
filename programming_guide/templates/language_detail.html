@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ language.name }} - Подробная информация{% endblock %}
+
+{% block content %}
+<div class="container">
+    <nav class="breadcrumb">
+        <a href="{% url 'index' %}">Главная</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>{{ language.name }}</span>
+    </nav>
+
+    <article class="language-detail">
+        <header class="detail-header">
+            <div class="detail-logo-container">
+                {% if language.logo %}
+                <img src="{{ language.logo.url }}" alt="{{ language.name }}" class="detail-logo">
+                {% else %}
+                <div class="detail-logo-placeholder">
+                    <i class="fas fa-code fa-3x"></i>
+                </div>
+                {% endif %}
+            </div>
+            <div class="detail-title">
+                <h1>{{ language.name }}</h1>
+                <div class="detail-meta">
+                    <span class="meta-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <strong>Год создания:</strong> {{ language.year_created }}
+                    </span>
+                    <span class="meta-item">
+                        <i class="fas fa-industry"></i>
+                        <strong>Сфера:</strong> {{ language.main_application }}
+                    </span>
+                    {% if language.is_popular %}
+                    <span class="meta-item popular">
+                        <i class="fas fa-star"></i>
+                        <strong>Популярный</strong>
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <div class="detail-content">
+            <section class="description-section">
+                <h2><i class="fas fa-file-alt"></i> Описание языка</h2>
+                <div class="description-text">
+                    {{ language.description|linebreaks }}
+                </div>
+            </section>
+
+            <div class="detail-actions">
+                <a href="{% url 'index' %}" class="btn-back">
+                    <i class="fas fa-arrow-left"></i> Назад к списку
+                </a>
+                {% if language.is_popular %}
+                <a href="{% url 'popular' %}" class="btn-popular-page">
+                    <i class="fas fa-fire"></i> Смотреть все популярные
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </article>
+</div>
+{% endblock %}
